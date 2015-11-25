@@ -1,8 +1,9 @@
 //DECLARACIÓN DE VARIABLES GLOBALES //
 //esta variable es usada por las funciones quitar() y apilar()
 var cantHijos=0;
+//La pagina que se incluye por defecto es crear_unid_y_temas.php
+var pagina="crear_unid_y_temas.php";
 $(document).ready(function() {
-
 $('#formElimMsj').on('submit', function(e){
         e.preventDefault();
 		if (!$('input[name="msjs[]"]').is(':checked')) {
@@ -22,6 +23,7 @@ $('#Asignatura').on("change",function(){
 	if(document.getElementById('elegirTipo').style.display=="none"){
 		document.getElementById('elegirTipo').style.display="block";
 	}
+	//En caso de que esten visibles
 	document.getElementById('camposTeoria').style.display="none";
 	document.getElementById('camposPractica').style.display="none";
 });
@@ -98,6 +100,7 @@ function tipoDeParcial(){
 	desmarcarChecbox();
 }
 
+//funcion utilizada por el elemento con id elegirTipo'
 function m(){
 	if(document.getElementById('tipoParcial').value=='teorico'){
 		document.getElementById('camposPractica').style.display="none";
@@ -180,7 +183,7 @@ function mostrarUnidSubt(idElemento, tipoParcial,asig) {
 			document.getElementById(idElemento).innerHTML = "<b style='text-align:center; display:block'>Ejercicios parte "+tipoParcial+"</b><br />"+xmlhttp.responseText;
 		}
 	}
-	xmlhttp.open("GET","comunicaciones/crear_unid_y_temas.php?comp="+tipoParcial+"&asig="+asig,true);
+	xmlhttp.open("GET","comunicaciones/"+pagina+"?comp="+tipoParcial+"&asig="+asig,true);
 	xmlhttp.send();
 }
 
@@ -198,7 +201,7 @@ function mostrarUnidSubt2(idElemento, tipoParcial,asig) {
 			
 		}
 	}
-	xmlhttp2.open("GET","comunicaciones/crear_unid_y_temas.php?comp="+tipoParcial+"&asig="+asig,true);
+	xmlhttp2.open("GET","comunicaciones/"+pagina+"?comp="+tipoParcial+"&asig="+asig,true);
 	xmlhttp2.send();
 }
 
@@ -675,4 +678,9 @@ function enviar_formulario2(){
 	//if(validarPuntaje()){
    		document.formPdf.submit();
 	//}
+}
+
+function actPagina(page){
+	pagina=page;
+	alert("se actualizo la pagina: "+pagina);
 }
