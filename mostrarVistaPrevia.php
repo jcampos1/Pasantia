@@ -38,19 +38,19 @@ if(empty($micadena)){
 				<tr>
 					<tr>
 						<td><strong>".($k).".</strong></td>
-						<td align=\"justify\">".$row['descripcion']."</td>		
+						<td id='p".($k)."' align='justify'>".$row['descripcion']."</td>		
 					</tr>
 				</tr>";
 				
 				
 					$contenido=$contenido."<tr>
 						<td ><strong>".($k).".</strong></td>
-						<td align=\"justify\">".$row['descripcion']."</td>		
+						<td id='p".($k)."' align=\"justify\">".$row['descripcion']."</td>		
 					</tr>";
 				
 				if($opc!="Práctica"){
 				$conten = $conten."<tr style='background:white'>
-					<td width='30%;' align='center'><strong style='font-size:10px;'>pts ejerc. ".$k."<br></strong><input name='pts[]' style='height:20px;pading:0;width:60px;' type='number' min='0' max='20'></td>
+					<td width='30%;' align='center'><strong style='font-size:10px;'>pts ejerc. ".$k."<br></strong><input id='punt".($k)."' name='pts[]' style='height:20px;pading:0;width:60px;' type='number' min='0' max='20'></td>
 					<td width='70%;' align='center'><strong style='font-size:10px;'>pts por Items ejercicio ".$k."</strong><input type='text' name='items[]' placeholder='pts por items' style='font-size:12px; height:20px;' width='70%'/></td>
 				</tr>";
 				}
@@ -58,7 +58,7 @@ if(empty($micadena)){
 			}
 		}
 	}
-	echo "<br><h3>Cantidad de preguntas encontradas:<strong>".($k-1)."</strong></h3><br> ";
+	echo "<br><h3>Cantidad de preguntas encontradas:<strong><span id='num_res'>".($k-1)."</span></strong></h3><br> ";
 	$conten=$conten."</table>";
 	echo $conten;
 	$_SESSION['contenido']=$contenido;

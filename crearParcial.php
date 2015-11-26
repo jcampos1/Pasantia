@@ -9,7 +9,11 @@
     <?php }?>
     
   	<div  id="opciones" style="width:100%;background:#CCC ;border-radius:5px 5px 0px 0px ;" align="right">
-    <a onclick='validarPuntaje();' target="_blank"><input type="button"  value="Generar"/></a>
+    <form method="post" action="generarpdf.php" onsubmit="return validarPuntaje()">
+        <input id="trampa" name="trampa" type="hidden" value=""> 
+        <input id="unid_sel" name="unid_sel" type="hidden" value="">
+        <input type="submit"  value="Generar" style="all:none"/></a>
+    </form>
     </div>
     
   	<div id="contenedor" style="width:100%; display:block">

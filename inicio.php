@@ -22,7 +22,7 @@ function enviar_formulario(){
 	if (!$('input[name="msjs[]"]').is(':checked')) {
         alert('Debe seleccionar por lo menos un mensaje para ejecutar esta acción');
     	}else{
-			document.formElimMsj.submit()
+			document.formElimMsj.submit();
 		}
    //document.formElimMsj.submit() 
 }

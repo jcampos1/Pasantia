@@ -490,7 +490,25 @@ function apilar(id_e,subt,comp){
 			document.getElementById('elegidos').style.display='block';
 			document.getElementById('boton').style.display='block';
 		}
-		cadena="<div id='"+id_e+"'><div style='display:inline-block; width:95%; text-align:justify;'><span style='font-size:10px;'>ID:"+id_e+", "+subt+", "+comp+"</span></div><div style='display:inline-block; width:5%;'><input type='image' src='resources/imagenes/quitar.jpg' style='width:100%; height:15px;' title='Quitar' class='edit_or_delete' onclick=\"quitar('"+id_e+"');\" /></div><input type='checkbox' value='"+id_e+"' name='eleg[]' style='display:none' checked/><br/></div>";
+		cadena="<div id='"+id_e+"'><div style='display:inline-block; width:95%; text-align:justify;'><span style='font-size:10px;'>ID:"+id_e+", "+subt+"</span></div><div style='display:inline-block; width:5%;'><input type='image' src='resources/imagenes/quitar.jpg' style='width:15px; height:15px;' title='Quitar' class='edit_or_delete' onclick=\"quitar('"+id_e+"');\" /></div><input type='checkbox' value='"+id_e+"' name='eleg[]' style='display:none' checked/><br/></div>";
+		document.getElementById('elegidos').innerHTML+=cadena;
+		cantHijos++;
+	}else{
+		alert("Ya ha seleccionado el enunciado de ID: "+id_e);
+	}
+}
+
+//paginas que la usan: verEnunciados.php
+function apilarManual(id_e,descripcion){
+	alert("entro");	
+	dato = document.getElementById(id_e);
+	
+	if (!dato){
+		if(document.getElementById('elegidos').style.display=='none'){
+			document.getElementById('elegidos').style.display='block';
+			document.getElementById('boton').style.display='block';
+		}
+		cadena="<div id='"+id_e+"'><div style='display:inline-block; width:95%; text-align:justify;'><span style='font-size:10px;'>ID:"+id_e+", "+descripcion+"</span></div><div style='display:inline-block; width:5%;'><input type='image' src='resources/imagenes/quitar.jpg' style='width:15px; height:15px;' title='Quitar' class='edit_or_delete' onclick=\"quitar('"+id_e+"');\" /></div><input type='checkbox' value='"+id_e+"' name='eleg[]' style='display:none' checked/><br/></div>";
 		document.getElementById('elegidos').innerHTML+=cadena;
 		cantHijos++;
 	}else{
@@ -642,6 +660,46 @@ function vistaPrevia(pagina){
 
 }
 
+//Funcion utilizada por crearParcialManual.php
+//muestra los enunciados filtrados por el usuario
+function mostrarEnunciados(){
+	xmlhttp= obtenerXMLHTTP();
+	var arraySubt = new Array();
+	$('input[name="subt[]"]:checked').each(function() {
+		arraySubt.push($(this).val());
+	});
+	nivel=document.getElementById('nivel').value;
+	asig=document.getElementById('Asignatura').value;
+	tp=document.getElementById('tipoParcial').value;
+	
+	parametros="subt="+arraySubt+"&asig="+asig+"&nivel="+nivel+"&tipo="+tp;
+	xmlhttp.onreadystatechange = function() {
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			document.getElementById('informacion').innerHTML ="";
+			document.getElementById('informacion').innerHTML = xmlhttp.responseText;
+		}
+	}
+	xmlhttp.open("GET","enunParcial.php?"+parametros,true);
+	xmlhttp.send();
+}
+
+//para ir apilando los enunciados seleccionados por el usuario
+//la utiliza crear parcial colaborativo
+function copiar(x) 
+{
+    x.onclick="";
+    var node = document.createElement("tr");
+    seleccionado=x.innerHTML;
+    node.innerHTML=seleccionado;
+    document.getElementById("tablaselec").appendChild(node);
+
+
+    
+    var node2 = document.createElement("tr");
+    node2.innerHTML="<td colspan='2'><strong style='font-size:10px;'>Pts ejerc. 1</strong><input name='pts[]' style='height:20px;pading:4px;width:10%;' type='number' min='0' max='20'><strong style='font-size:10px;'>Pts por Items ejercicio 1</strong><input type='text' name='items[]' placeholder='Pts por item' style='font-size:12px; height:20px;width:40%;' ></td>";
+    document.getElementById("tablaselec").appendChild(node2);
+}
+
 //paginas que la usan: crearQuiz.php
 //busca que boton de radio esta seleccionado
 function verSeleccionado(){
@@ -654,19 +712,33 @@ function verSeleccionado(){
 	return resultado; 
 }
 
+
 //Verifica que el puntaje no exceda los 20 pts
 function validarPuntaje(){
+
 	var puntaje=0, menor=true;
-	
 	$('input[name="pts[]"]').each(function() {
-		puntaje=puntaje+ parseFloat($(this).val());
+	puntaje=puntaje+ parseFloat($(this).val());
 	});
 	if(puntaje!=20){
-		menor=false;
-		alert("Error en el puntaje. Verifique e intente nuevamente");
+		alert("Verifique el puntaje nuevamente");
+		return false;
+	}else{
+		var i;
+		var aux,aux2;
+		document.getElementById('trampa').value="<table>"
+		for(i=1;i<=parseInt(document.getElementById("num_res").innerHTML);i++){
+			aux="p" + i.toString();
+			aux2="punt" + i.toString();
+			document.getElementById('trampa').value= document.getElementById('trampa').value +"<tr><td valign='top'><p><strong>"+i.toString()+".- </strong></p></td><td valign='top' align='justify'>"+document.getElementById(aux).innerHTML +"</td><td valign='bottom' style='font-size:11px;'><strong>("+document.getElementById(aux2).value+" puntos)</strong></td></tr>";
+		}
+		document.getElementById('trampa').value = document.getElementById('trampa').value + "</table>";
+		document.getElementById('unid_sel').value= document.getElementById('unidad_tematica').value;
+		return true;
 	}
-	return menor;
 }
+
+
 
 function escTipo(valor){
 	document.getElementById('tip').value=valor;
@@ -682,5 +754,4 @@ function enviar_formulario2(){
 
 function actPagina(page){
 	pagina=page;
-	alert("se actualizo la pagina: "+pagina);
 }

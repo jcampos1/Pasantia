@@ -1,19 +1,20 @@
 <?php
-/*Este archivo es utilizado por la funcion de JavaScript mostrarSubtemas para la peticion sin recargar*/
+
+/*Pagina para mostrar los enunciados de forma asincrona, basandose en la asignatura, tipo de parcial, complejidad*/
 session_start();
 include("conexion.php");
 $nivel = $_GET['nivel'];
-$string = $_GET['cant'];
 $micadena = $_GET['subt'];
+$tipo = $_GET['tipo'];
+$asig = $_GET['asig'];
 $conten='';
 if(empty($micadena)){
 	echo "No hay opciones seleccionadas";
 }else{
 	//cantidad de subtemas seleccionados
 	$subt=explode(",",$micadena);
-	$cant=explode(",",$string);
 	$totalSeleccionados = count($subt);
-	echo "<h2>Parcial Automatico</h2>";
+	echo "<h2>Parcial Manual / Ejercicios disponibles</h2>";
 	$k=1;
 	$conten = "<table width='100%'>";
 	//update enunciado set fec_ult_uso='2015-08-25' where id_e='5'SELECT * FROM `enunciado` WHERE nombre_sub='DemostraciÃ³n lÃ³gica de predicados' order by fec_ult_uso ASC
@@ -34,39 +35,25 @@ if(empty($micadena)){
 			}	
 		}
 		
-		//and un_tema='".$subt[$i+1]."' hay que agregarselo a la consulta
-		$sql="SELECT * FROM enunciado WHERE componente='".$subt[$i+2]."' and nombre_sub='".$subt[$i]."' and uniTem='".$subt[$i+1]."' and nivel='".$nivel."' ORDER BY fec_ult_uso ASC LIMIT 0,".$cant[$j];
+
+		$sql="SELECT * FROM enunciado WHERE componente='".$subt[$i+2]."' and nombre_sub='".$subt[$i]."' and nivel='".$nivel."' ORDER BY fec_ult_uso ASC ";
 		/*$sql="SELECT * FROM (SELECT * FROM enunciado WHERE nombre_sub='".$subt[$i]."' and nivel='".$nivel."' ORDER BY fec_ult_uso ASC) ORDER BY rand(".time()."*".time().") LIMIT 0,".$cant[$i];*/
 		$result=mysql_query($sql);
 		$n=mysql_num_rows($result);
 		if($n>0){
 			while($row=mysql_fetch_array($result)){
+				$sub= $subt[$i];
+				$comp= $subt[$i+2];
+				$desc=$row['descripcion'];
+				$desc=addslashes($desc);
+				$desc=substr($desc, 3, strlen($desc)-7);
+				//$desc=preg_quote($desc,'/');
 				$conten = $conten."
-				<tr>
-					<tr>
-						<td width='5%;' valign='top'><strong>".($k).".</strong></td>
+					<tr onclick=\"apilar(".$row['id_e'].",'$desc','comp');\" onmouseover=\"this.className = 'resaltar'\" onmouseout=\"this.className = null\" title=\"ver enunciados\">
+						<td width='5%;' valign='top'><strong>".($row['id_e']).".</strong></td>
 						<td width='95%;'><b>Ejercicio $componente / ".$subt[$i]."</b><br>".$row['descripcion']."</td>		
 					</tr>
-				</tr>
-				<tr style='background:black'>
-					<td width='30%;' align='center' id=><strong style='font-size:10px;'>pts ejerc. ".$k."<br></strong><input name='pts[]' style='height:20px;pading:0;width:60px;' type='number' min='0' max='20'></td>
-					<td width='70%;' align='center'><strong style='font-size:10px;'>pts por Items ejercicio ".$k."</strong><input type='text' name='items[]' placeholder='pts por items' style='font-size:12px; height:20px;' width='70%'/></td>
-				</tr>
-				<!--<tr style='width:100%'>
-					<tr style='background:yellow;'>
-						<td width='5%;' valign='top'><strong>".($k).".</strong></td>
-						<td width='95%;'>".$row['descripcion']."</td>
-					</tr>		
-					<tr style='background:blue;'>
-						<td width='5%;' valign='top'>fgfg</td>
-						<td width='95%;'>
-						<tr>
-							<td width='30%' style='background:green;' ></td>
-							<td width='70%' width='180px;' style='background:grey;' ></td>
-						</tr>
-						</td>
-					</tr>
-				</tr>-->";
+				";
 				$k++;
 			}
 		}

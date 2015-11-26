@@ -6,6 +6,9 @@
 	$eval=$_POST['tip'];
 	$unid_sel=$_POST['unid_sel'];
 	
+	$contenido_neto=$_POST['trampa'];
+	setlocale(LC_ALL,"es_ES");
+	
 	//se determina de que asignatura es la unidad tematica
 	$sql="SELECT asignatura FROM unidad_tematica WHERE nomb_unid='$unid_sel'";
 	$asig=mysql_fetch_array(mysql_query($sql));
@@ -31,13 +34,13 @@
 		Unidad Academica de Elementos Discretos</p>
 		
 		<p style="text-align:right">'.$asig.'<br>
-		Agosto, 2015</p>
+		'.date("F , Y").'</p>
 		
-		<p style="text-align:center"><strong>'.$eval.'<br>'.$unid_sel.'</p>
+		<p style="text-align:center; font-family:Times New Roman;"><strong>PARCIAL<br><i>'.$unid_sel.'</i></p>
 		<br>
 		<p>NOMBRE:_________________________________________ C.I:___________________ No.:____</p>
 		<table>
-		'.$_SESSION['contenido'].'</table></body></html>';
+		'.$contenido_neto.'</table></body></html>';
 	
 	//Especificaciones del documento
 	$dompdf = new DOMPDF();
@@ -45,7 +48,7 @@
 	$dompdf->set_base_path('localhost/compartido');
 	
 	
-	$dompdf->load_html($tipo1);
+	$dompdf->load_html($tipo1); 
 	
 	$dompdf->render();
 	set_time_limit(-1); //Tiempo Ilimitado

@@ -13,7 +13,11 @@
     </script>
     
     <div  id="opciones" style="width:100%;background:#CCC ;border-radius:5px 5px 0px 0px ;" align="right">
-    <a onclick='validarPuntaje();' target="_blank"><input type="button"  value="Generar"/></a>
+    <form method="post" action="generarpdf.php" onsubmit="return validarPuntaje()">
+        <input id="trampa" name="trampa" type="hidden" value=""> 
+        <input id="unid_sel" name="unid_sel" type="hidden" value="">
+        <input id="boton"  type="submit"  value="Generar" style="display:none;all:none"/></a>
+    </form>
     </div>
     
     <div id="contenedor" style="width:100%; display:block">
@@ -37,66 +41,16 @@
             </div>
             
             <div id="complejidad" style="display:none;">
-                <input type="button" value="Buscar Ejercicios" style="margin: 0 auto" onclick="vistaPrevia('mostrarVistaPreviaParcial.php','')" />
+                <input type="button" value="Buscar Ejercicios" style="margin: 0 auto" onclick="mostrarEnunciados()" />
             </div>
         </div>
-        
-    
-        <!--El contenido de este div es creado al seleccionar los mensajes que se desea ver (recibidos o enviados) -->
-        
-        <div id="informacion" style="width:65%; float:right; padding:10px 10px;" align="left">
-            <div id="disponibles"  style="overflow-x:hidden; overflow-y:scroll;height:300px;">
-                <h3>Disponibles</h3>
-                <?php include("conexion.php"); ?>   
-                <table width="100%" border="1" height="300px">
-                    <thead>
-                        <th style="width:5%">ID</th>
-                        <th style="width:95%">CONTENIDO</th>
-                     </thead>
-                     <tbody>
-                    <?php
-                    $resultado = mysql_query("SELECT * FROM enunciado");
-                    while($row = mysql_fetch_array($resultado)){
-                    
-                    echo    "<tr onclick='copiar(this)'>";
-                    echo    "<td  >".$row['id_e']."</td>";
-                    echo    "<td  >".$row['descripcion']."</td>";
-                    echo    "</tr>";
-                   
-                    }
-                    ?>
-
-                    </tbody>
-             </table>
-           </div>
-            <hr>
-            <div id="seleccionados">
-                <h3>Seleccionados</h3>
-                <table  width="100%"   >
-                    <thead>
-                        <th style="width:5%">ID</th>
-                        <th style="width:95%">CONTENIDO</th>
-                     </thead>
-                     <tbody id="tablaselec">
-                     </tbody>
-                </table>         
-            </div>
-        </div>
-     
     </div>
+    <!--El contenido de este div es creado al seleccionar los mensajes que se desea ver (recibidos o enviados) -->
+        <div id="informacion" style="width:65%; float:right; padding:10px 0 0 10px; ">
+        </div>
+        <div id="elegidos" style="display:none; float:left; width:100%; padding:10px 0 0 10px;">
+            <b>SELECCIONADOS:</b><br /><hr />
+        </div>
     
 </div>      
 
-<script>
-function copiar(x) 
-{
-    x.onclick="";
-    var node = document.createElement("tr");
-    seleccionado=x.innerHTML;
-    node.innerHTML=seleccionado;
-    document.getElementById("tablaselec").appendChild(node);
-    var node2 = document.createElement("tr");
-    node2.innerHTML="<td colspan='2'><strong style='font-size:10px;'>Pts ejerc. 1</strong><input name='pts[]' style='height:20px;pading:4px;width:10%;' type='number' min='0' max='20'><strong style='font-size:10px;'>Pts por Items ejercicio 1</strong><input type='text' name='items[]' placeholder='Pts por item' style='font-size:12px; height:20px;width:40%;' ></td>";
-    document.getElementById("tablaselec").appendChild(node2);
-}
-</script>
