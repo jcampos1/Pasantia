@@ -48,9 +48,22 @@
     <!--El contenido de este div es creado al seleccionar los mensajes que se desea ver (recibidos o enviados) -->
         <div id="informacion" style="width:65%; float:right; padding:10px 0 0 10px; ">
         </div>
-        <div id="elegidos" style="display:none; float:left; width:100%; padding:10px 0 0 10px;">
-            <b>SELECCIONADOS:</b><br /><hr />
-        </div>
+        <table>
+            <body id="tablaSelec">
+                
+            </body>
+        </table>
+        <div id="seleccionados">
++                <h3>Seleccionados</h3>
++                <table  width="100%"   >
++                    <thead>
++                        <th style="width:5%">ID</th>
++                        <th style="width:95%">CONTENIDO</th>
++                     </thead>
++                     <tbody id="tablaselec">
++                     </tbody>
++                </table>         
++            </div>
     
 </div>      
 

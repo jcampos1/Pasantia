@@ -45,11 +45,11 @@ if(empty($micadena)){
 				$sub= $subt[$i];
 				$comp= $subt[$i+2];
 				$desc=$row['descripcion'];
-				$desc=addslashes($desc);
-				$desc=substr($desc, 3, strlen($desc)-7);
+				$desc=substr($desc, 3, strlen($desc)-6);
+				
 				//$desc=preg_quote($desc,'/');
 				$conten = $conten."
-					<tr onclick=\"apilar(".$row['id_e'].",'$desc','comp');\" onmouseover=\"this.className = 'resaltar'\" onmouseout=\"this.className = null\" title=\"ver enunciados\">
+					<tr onclick=\"apilarManual(this);\" onmouseover=\"this.className = 'resaltar'\" onmouseout=\"this.className = null\" title=\"ver enunciados\">
 						<td width='5%;' valign='top'><strong>".($row['id_e']).".</strong></td>
 						<td width='95%;'><b>Ejercicio $componente / ".$subt[$i]."</b><br>".$row['descripcion']."</td>		
 					</tr>

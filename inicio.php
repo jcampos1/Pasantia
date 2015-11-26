@@ -22,7 +22,7 @@ function enviar_formulario(){
 	if (!$('input[name="msjs[]"]').is(':checked')) {
         alert('Debe seleccionar por lo menos un mensaje para ejecutar esta acción');
     	}else{
-			document.formElimMsj.submit();
+			document.formElimMsj.submit()
 		}
    //document.formElimMsj.submit() 
 }
@@ -70,6 +70,7 @@ function enviar_formulario(){
                                 <!-- si se han realizado asignaciones por parte del coord o si el usuario es coordinador-->
 								<?php if($cant>0 || $_SESSION['coord']=="si"){?><li><a href="inicio.php?view=4" <?php if($_GET['view']==4) echo "class='actual'"?>>Colaboración</a></li><?php }?>
 								<li><a href="inicio.php?view=5" <?php if($_GET['view']==5) echo "class='actual'"?>>Historial</a></li>
+								<li><a href="inicio.php?view=15" <?php if($_GET['view']==15) echo "class='actual'"?>>Mis Enunciados</a></li>
 								<li><a href="inicio.php?view=6" <?php if($_GET['view']==6) echo "class='actual'"?>>Mensajes</a></li>
                                 <?php if($_SESSION['coord']=="si"){?><li><a href="inicio.php?view=8" <?php if($_GET['view']==8) echo "class='actual'"?>>Administrar</a></li><?php }?>
 							</ul>
@@ -114,7 +115,7 @@ function enviar_formulario(){
 										include("crearQuiz.php");
 										break;
 									case 10:
-										include("crearParcialAuto.php");
+										include("crearParcialManual.php");
 										break;
 									case 11:
 									include("crearParcialCol.php");
@@ -124,6 +125,9 @@ function enviar_formulario(){
 									break;
 									case 13:
 									include("crearParcialManual.php");
+									break;
+									case 15:
+									include("misEnunciados.php");
 									break;
 								}
 								?>
