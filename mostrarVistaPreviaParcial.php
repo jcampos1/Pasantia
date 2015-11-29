@@ -13,7 +13,7 @@ if(empty($micadena)){
 	$subt=explode(",",$micadena);
 	$cant=explode(",",$string);
 	$totalSeleccionados = count($subt);
-	echo "<h2>Parcial Automatico</h2>";
+	echo "<h2>Parcial Automático</h2>";
 	$k=1;
 	$conten = "<table width='100%'>";
 	//update enunciado set fec_ult_uso='2015-08-25' where id_e='5'SELECT * FROM `enunciado` WHERE nombre_sub='DemostraciÃ³n lÃ³gica de predicados' order by fec_ult_uso ASC
@@ -44,29 +44,14 @@ if(empty($micadena)){
 				$conten = $conten."
 				<tr>
 					<tr>
-						<td width='5%;' valign='top'><strong>".($k).".</strong></td>
+						<td width='5%;' valign='top'><strong>".($row['id_e']).".</strong></td>
 						<td width='95%;'><b>Ejercicio $componente / ".$subt[$i]."</b><br>".$row['descripcion']."</td>		
 					</tr>
 				</tr>
-				<tr style='background:black'>
-					<td width='30%;' align='center' id=><strong style='font-size:10px;'>pts ejerc. ".$k."<br></strong><input name='pts[]' style='height:20px;pading:0;width:60px;' type='number' min='0' max='20'></td>
-					<td width='70%;' align='center'><strong style='font-size:10px;'>pts por Items ejercicio ".$k."</strong><input type='text' name='items[]' placeholder='pts por items' style='font-size:12px; height:20px;' width='70%'/></td>
-				</tr>
-				<!--<tr style='width:100%'>
-					<tr style='background:yellow;'>
-						<td width='5%;' valign='top'><strong>".($k).".</strong></td>
-						<td width='95%;'>".$row['descripcion']."</td>
-					</tr>		
-					<tr style='background:blue;'>
-						<td width='5%;' valign='top'>fgfg</td>
-						<td width='95%;'>
-						<tr>
-							<td width='30%' style='background:green;' ></td>
-							<td width='70%' width='180px;' style='background:grey;' ></td>
-						</tr>
-						</td>
-					</tr>
-				</tr>-->";
+				<tr style='background:white'>
+					<td width='30%;' align='center' id=><strong style='font-size:10px;'>pts ejerc. ".$row['id_e']."<br></strong><input name='pts[]' style='height:20px;pading:0;width:60px;' type='number' min='0' max='20'></td>
+					<td width='70%;' align='center'><strong style='font-size:10px;'>pts por Items ejercicio ".$row['id_e']."</strong><input type='text' name='items[]' placeholder='pts por items' style='font-size:12px; height:20px;' width='70%'/></td>
+				</tr>";
 				$k++;
 			}
 		}
@@ -77,5 +62,14 @@ if(empty($micadena)){
 	$conten=$conten."</table>";
 	echo $conten;
 	$_SESSION['contenido']=$conten;
+	if (($k-1)>0) {
+		echo "<div  id=\"opciones\" style=\"width:100%;border-radius:5px 5px 0px 0px ;\" align='right'>
+    <form method='post' action='generarpdf.php' onsubmit='return validarPuntaje()''>
+        <input id='trampa' name='trampa' type='hidden' value=''> 
+        <input id='unid_sel' name='unid_sel' type='hidden' value=''>
+        <input id='boton'  type='submit'  value='Generar' style='all:none'/></a>
+    </form>
+    </div>"; 
+	}
 }
 ?>

@@ -36,11 +36,12 @@ if(empty($micadena)){
 		}
 		
 
-		$sql="SELECT * FROM enunciado WHERE componente='".$subt[$i+2]."' and nombre_sub='".$subt[$i]."' and nivel='".$nivel."' ORDER BY fec_ult_uso ASC ";
+		$sql="SELECT * FROM enunciado WHERE componente='".$subt[$i+2]."' and nombre_sub='".$subt[$i]."' and uniTem='".$subt[$i+1]."' and nivel='".$nivel."' ORDER BY fec_ult_uso ASC ";
 		/*$sql="SELECT * FROM (SELECT * FROM enunciado WHERE nombre_sub='".$subt[$i]."' and nivel='".$nivel."' ORDER BY fec_ult_uso ASC) ORDER BY rand(".time()."*".time().") LIMIT 0,".$cant[$i];*/
 		$result=mysql_query($sql);
 		$n=mysql_num_rows($result);
 		if($n>0){
+			$cont=1;
 			while($row=mysql_fetch_array($result)){
 				$sub= $subt[$i];
 				$comp= $subt[$i+2];
@@ -49,12 +50,13 @@ if(empty($micadena)){
 				
 				//$desc=preg_quote($desc,'/');
 				$conten = $conten."
-					<tr onclick=\"apilarManual(this);\" onmouseover=\"this.className = 'resaltar'\" onmouseout=\"this.className = null\" title=\"ver enunciados\">
+					<tr id='enun".$row['id_e']."' onclick=\"copiar(this, 'enun".$row['id_e']."');\" onmouseover=\"this.className = 'resaltar'\" onmouseout=\"this.className = null\" title=\"ver enunciados\">
 						<td width='5%;' valign='top'><strong>".($row['id_e']).".</strong></td>
-						<td width='95%;'><b>Ejercicio $componente / ".$subt[$i]."</b><br>".$row['descripcion']."</td>		
+						<td width='90%;'><b>Ejercicio $componente / ".$subt[$i]."</b><br>".$row['descripcion']."</td>		
 					</tr>
 				";
 				$k++;
+				$cont++;
 			}
 		}
 		$i=$i+3;

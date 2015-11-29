@@ -466,9 +466,25 @@ function verEnunciados(parametro){
 	xmlhttp.send();
 }
 
+//Elimina un enunciado junto a su puntaje, ambos referenciados por x e y, respectivamente
+function quitarEnunciado(x,y){	
+	if (!x){
+		alert("El elemento selecionado no existe");
+	} else {
+		padre = x.parentNode;
+		padre.removeChild(x);
+		padre2= y.parentNode;
+		padre2.removeChild(y);
+		cantHijos--;
+		if(cantHijos==0){
+			document.getElementById("boton").style.display='none';
+		}
+	}
+}
+
 //Elimina un elemento html referenciado por un ID
 function quitar(id){
-	dato = document.getElementById(id);	
+	var dato= document.getElementById(id);	
 	if (!dato){
 		alert("El elemento selecionado no existe");
 	} else {
@@ -498,21 +514,17 @@ function apilar(id_e,subt,comp){
 	}
 }
 
-//paginas que la usan: verEnunciados.php
-function apilarManual(id_e,descripcion){
-	alert("entro");	
-	dato = document.getElementById(id_e);
-	
+//paginas que la usan: enunParcial.php
+function copiar(x,id_e){
+	dato = document.getElementById("copia"+id_e);
 	if (!dato){
-		if(document.getElementById('elegidos').style.display=='none'){
-			document.getElementById('elegidos').style.display='block';
-			document.getElementById('boton').style.display='block';
-		}
-		cadena="<div id='"+id_e+"'><div style='display:inline-block; width:95%; text-align:justify;'><span style='font-size:10px;'>ID:"+id_e+", "+descripcion+"</span></div><div style='display:inline-block; width:5%;'><input type='image' src='resources/imagenes/quitar.jpg' style='width:15px; height:15px;' title='Quitar' class='edit_or_delete' onclick=\"quitar('"+id_e+"');\" /></div><input type='checkbox' value='"+id_e+"' name='eleg[]' style='display:none' checked/><br/></div>";
-		document.getElementById('elegidos').innerHTML+=cadena;
+		tbody= document.getElementById("filas");
+		var idEnun= document.getElementById("copia"+id_e);
+		var idPts= document.getElementById("copia"+id_e);
+		newRow= "<tr id='copia"+id_e+"'>"+x.innerHTML+"<td><div style='display:inline-block; width:5%;'><input type='image' src='resources/imagenes/quitar.jpg' style='width:15px; height:15px;' title='Quitar' class='edit_or_delete' onclick=\"quitarEnunciado(document.getElementById('copia"+id_e+"'),document.getElementById('pts"+id_e+"'));\" /></div></td></tr><tr id='pts"+id_e+"' style='background:white'><td width='30%;' align='center'><strong style='font-size:10px;'>pts ejerc. "+id_e+"<br></strong><input id='punt"+id_e+"' name='pts[]' style='height:20px;pading:0;width:60px;' type='number' min='0' max='20'></td><td width='70%;' align='center'><strong style='font-size:10px;'>pts por Items ejercicio "+id_e+"</strong><input type='text' name='items[]' placeholder='pts por items' style='font-size:12px; height:20px;' width='70%'/></td></tr>";
+		tbody.innerHTML+=newRow;
+		document.getElementById('boton').style.display='block';
 		cantHijos++;
-	}else{
-		alert("Ya ha seleccionado el enunciado de ID: "+id_e);
 	}
 }
 
@@ -637,7 +649,8 @@ function habCantidad(idCant){
 		document.getElementById(idCant).disabled=true;
 	}
 }
-	
+
+//Utilizada por crearQuiz.php, crearParcialAuto.php	
 function vistaPrevia(pagina){
 	xmlhttp= obtenerXMLHTTP();
 	var arraySubt = new Array();
@@ -649,7 +662,13 @@ function vistaPrevia(pagina){
 		cant.push($(this).val());
 	});
 	nivel=document.getElementById('nivel').value;
-	parametros="subt="+arraySubt+"&cant="+cant+"&nivel="+nivel;
+	if(pagina=="mostrarVistaPreviaParcial.php"){
+		parametros="subt="+arraySubt+"&cant="+cant+"&nivel="+nivel;
+	}else{
+		opcion=$('input:radio[name=opcion]:checked').val();
+		parametros="subt="+arraySubt+"&cant="+cant+"&nivel="+nivel+"&opcion="+opcion;
+	}
+	
 	xmlhttp.onreadystatechange = function() {
 		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 			document.getElementById('informacion').innerHTML = xmlhttp.responseText;
@@ -657,7 +676,6 @@ function vistaPrevia(pagina){
 	}
 	xmlhttp.open("GET",pagina+"?"+parametros,true);
 	xmlhttp.send();
-
 }
 
 //Funcion utilizada por crearParcialManual.php
@@ -675,7 +693,6 @@ function mostrarEnunciados(){
 	parametros="subt="+arraySubt+"&asig="+asig+"&nivel="+nivel+"&tipo="+tp;
 	xmlhttp.onreadystatechange = function() {
 		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-			document.getElementById('informacion').innerHTML ="";
 			document.getElementById('informacion').innerHTML = xmlhttp.responseText;
 		}
 	}
@@ -683,22 +700,6 @@ function mostrarEnunciados(){
 	xmlhttp.send();
 }
 
-//para ir apilando los enunciados seleccionados por el usuario
-//la utiliza crear parcial colaborativo
-function copiar(x) 
-{
-    x.onclick="";
-    var node = document.createElement("tr");
-    seleccionado=x.innerHTML;
-    node.innerHTML=seleccionado;
-    document.getElementById("tablaselec").appendChild(node);
-
-
-    
-    var node2 = document.createElement("tr");
-    node2.innerHTML="<td colspan='2'><strong style='font-size:10px;'>Pts ejerc. 1</strong><input name='pts[]' style='height:20px;pading:4px;width:10%;' type='number' min='0' max='20'><strong style='font-size:10px;'>Pts por Items ejercicio 1</strong><input type='text' name='items[]' placeholder='Pts por item' style='font-size:12px; height:20px;width:40%;' ></td>";
-    document.getElementById("tablaselec").appendChild(node2);
-}
 
 //paginas que la usan: crearQuiz.php
 //busca que boton de radio esta seleccionado

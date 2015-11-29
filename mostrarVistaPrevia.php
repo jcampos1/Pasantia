@@ -19,9 +19,9 @@ if(empty($micadena)){
 		echo "<h2>Quiz Automatico</h2>";
 	}else{
 		if($opc=="Práctica"){
-			echo "<h2>Práctica Automatica</h2>";
+			echo "<h2>Práctica Automatico</h2>";
 		}else{
-			echo "<h2>Taller Automatica</h2>";
+			echo "<h2>Taller Automatico</h2>";
 		}
 	}
 	$k=1;

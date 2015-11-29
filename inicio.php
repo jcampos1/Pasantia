@@ -115,7 +115,7 @@ function enviar_formulario(){
 										include("crearQuiz.php");
 										break;
 									case 10:
-										include("crearParcialManual.php");
+										include("crearParcialAuto.php");
 										break;
 									case 11:
 									include("crearParcialCol.php");

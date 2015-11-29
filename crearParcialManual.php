@@ -1,12 +1,6 @@
 <?php include("conexion.php"); ?>
 <div>
-    <?php 
-    if(isset($_GET['actAviso']) and $_GET['actAviso']=='1'){?>
-        <!--Aqui se indica que el mensaje ha sido enviado o que hubo problemas al enviarlo -->
-        <div id="aviso" style="background:#0CC; height:50px;">
-        <b>su mensaje fue enviado con exito</b>
-        </div>
-    <?php }?>
+
     <!-- Funcion Js necesaria para poder mostrar las unidades tematicas y el campo cantidad-->
     <script type="text/javascript">
         setTimeout("actPagina('unidtemas.php')", 0);
@@ -48,22 +42,20 @@
     <!--El contenido de este div es creado al seleccionar los mensajes que se desea ver (recibidos o enviados) -->
         <div id="informacion" style="width:65%; float:right; padding:10px 0 0 10px; ">
         </div>
-        <table>
-            <body id="tablaSelec">
-                
-            </body>
-        </table>
-        <div id="seleccionados">
-+                <h3>Seleccionados</h3>
-+                <table  width="100%"   >
-+                    <thead>
-+                        <th style="width:5%">ID</th>
-+                        <th style="width:95%">CONTENIDO</th>
-+                     </thead>
-+                     <tbody id="tablaselec">
-+                     </tbody>
-+                </table>         
-+            </div>
+
+        
+        <div id="seleccionados" style="float:left; display: block; width:100%;">
+            <table  id="tablaselec">
+                <thead style="width:100%;"><h3 width="100%" style="display:block" >Seleccionados</h3></thead>
+                <thead>
+                    <th style="width:5%">ID</th>
+                    <th style="width:90%">CONTENIDO</th>
+                     <th style="width:5%">QUITAR</th>
+                 </thead>
+                 <tbody id="filas">
+                 </tbody>
+            </table>         
+        </div>
     
 </div>      
 
