@@ -47,7 +47,7 @@ header('Location: inicio.php?view=1');;
 						<h1>Crea tu Evaluacion ahora</h1>
 						<div class="pageintro">
 							<p>
-								 El sistema permitira crear tu evaluacion para Elementos Discretos de manera rapida y sencilla. En de Nuestro Banco de Ejecicios existen mas de 1.000.000 de estos.¡Comienza Ya!
+								 El sistema permitira crear tu evaluacion para Elementos Discretos de manera rapida y sencilla. 
 							</p>
 						</div>
 						<p class="createyourown handwritten">
