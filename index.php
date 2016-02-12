@@ -1,7 +1,7 @@
 <?php 
 session_start();
 if(isset($_SESSION['activa'])) 
-header('Location: inicio.php?view=1');;
+header('Location: inicio.php?view=2');;
 ?>
 <!DOCTYPE html>
 <meta charset="UTF-8">

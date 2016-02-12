@@ -64,13 +64,10 @@ function enviar_formulario(){
 					?>
 						<div class="rmm">
 							<ul>
-								<li><a href="inicio.php?view=1" <?php if($_GET['view']==1) echo "class='actual'"?>>Información</a></li>
 								<li><a href="inicio.php?view=2" <?php if($_GET['view']==2) echo "class='actual'"?>>Instrumentos</a></li>
 								<li><a href="inicio.php?view=3" <?php if($_GET['view']==3 || $_GET['view']==11) echo "class='actual'"?>>Ejercicios</a></li>
-                                <!-- si se han realizado asignaciones por parte del coord o si el usuario es coordinador-->
-								<?php if($cant>0 || $_SESSION['coord']=="si"){?><li><a href="inicio.php?view=4" <?php if($_GET['view']==4) echo "class='actual'"?>>Colaboración</a></li><?php }?>
-								<li><a href="inicio.php?view=5" <?php if($_GET['view']==5) echo "class='actual'"?>>Historial</a></li>
 								<li><a href="inicio.php?view=15" <?php if($_GET['view']==15) echo "class='actual'"?>>Mis Enunciados</a></li>
+								<li><a href="inicio.php?view=5" <?php if($_GET['view']==5) echo "class='actual'"?>>Historial</a></li>
 								<li><a href="inicio.php?view=6" <?php if($_GET['view']==6) echo "class='actual'"?>>Mensajes</a></li>
                                 <?php if($_SESSION['coord']=="si"){?><li><a href="inicio.php?view=8" <?php if($_GET['view']==8) echo "class='actual'"?>>Administrar</a></li><?php }?>
 							</ul>
@@ -82,22 +79,11 @@ function enviar_formulario(){
 							<div class="row">
 								<?php 
 								switch ($_GET['view']) {
-									case 1:
-										include("cuenta.php");
-										break;
 									case 2:
 										include("seleccion.php");
 										break;
 									case 3:
 										include("banco.php");
-										break;
-									case 4:
-										if($_SESSION['coord']=="si"){
-											include("colaborativo.php");
-										}else{
-											
-											include("colaborativoProf.php");
-										}
 										break;
 									case 5:
 										include("historial.php");

@@ -7,7 +7,7 @@ echo "<div id='addSubtema' style='width:40%; margin-left:2%;float:left; margin-t
 	<form name='agregarSubtema' action='comunicaciones/agregarSubtema.php' method='post'>
 		<input type='hidden' name='subt_viejo' id='subt_viejo' value=''/>
         <div style='margin-top:1%;' align='center'><h4><div id='titulo'>AGREGAR SUBTEMA</div></h4></div>
-		<div id='subtema' name='subtema' style=' margin-top:10%;'><h5>Nombre del Subtema</h5><textarea name='nomb_subt'  id='nomb_subt' placeholder='escriba aqui el subtema' ></textarea></div>
+		<div id='subtema' name='subtema' style=' margin-top:10%;'><h5>Nombre del Subtema</h5><textarea name='nomb_subt'  id='nomb_subt' placeholder='Subtema' ></textarea></div>
 		<div id='unidades'>
 		<h5>Unidad Tematica</h5>
 		<select name='unidad_tematica' id='unidad_tematica' >";	

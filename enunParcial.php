@@ -36,7 +36,7 @@ if(empty($micadena)){
 		}
 		
 
-		$sql="SELECT * FROM enunciado WHERE componente='".$subt[$i+2]."' and nombre_sub='".$subt[$i]."' and uniTem='".$subt[$i+1]."' and nivel='".$nivel."' ORDER BY fec_ult_uso ASC ";
+		$sql="SELECT * FROM enunciado WHERE componente='".$subt[$i+2]."' and nombre_sub='".$subt[$i]."' and unidad_tematica='".$subt[$i+1]."' and nivel='".$nivel."' ORDER BY fec_ult_uso ASC ";
 		/*$sql="SELECT * FROM (SELECT * FROM enunciado WHERE nombre_sub='".$subt[$i]."' and nivel='".$nivel."' ORDER BY fec_ult_uso ASC) ORDER BY rand(".time()."*".time().") LIMIT 0,".$cant[$i];*/
 		$result=mysql_query($sql);
 		$n=mysql_num_rows($result);

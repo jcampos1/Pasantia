@@ -16,7 +16,7 @@ echo "<div id='addTema' style='width:40%; margin-left:2%;float:left; margin-top:
 <form name='agregarTema' action='comunicaciones/agregarTema.php' method='post'>
 		<input type='hidden' name='unid_viejo' id='unid_viejo' value=''/>
             <div style='margin-top:1%;' align='center'><h4><div id='titulo'>AGREGAR TEMA</div></h4></div>
-			<div id='unid_t' name='unid_t' style=' margin-top:10%;'><h5>Unidad Temática</h5><textarea name='unid_tem'  id='unid_tem' placeholder='escriba aqui su tema' ></textarea>
+			<div id='unid_t' name='unid_t' style=' margin-top:10%;'><h5>Unidad Temática</h5><textarea name='unid_tem'  id='unid_tem' placeholder='Tema' ></textarea>
         </div>
 		<div id='asignatura'>
 		<h5>Asignatura</h5>

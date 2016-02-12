@@ -41,16 +41,16 @@
 		</p>
         	<h4>Nivel</h4>
 			<select name="nivel" id="nivel" onChange="verEnun()">
-				  <option value="bajo">bajo</option>
-				  <option value="medio">medio</option>
-				  <option value="alto">alto</option>
-				  <option value="reparacion">reparacion</option>
-                  <option value="reparacion">concurso</option>
+				  <option value="bajo">Bajo</option>
+				  <option value="medio">Medio</option>
+				  <option value="alto">Alto</option>
+				  <option value="reparacion">Reparacion</option>
+                  <option value="reparacion">Concurso</option>
 			</select>
             <h4>Componente</h4>
             <select name="componente" id="componente" onChange="cambiarSolucion()">
-				  <option value="teorico" >teorico</option>
-				  <option value="practico" selected>practico</option>
+				  <option value="teorico" >Teorico</option>
+				  <option value="practico" selected>Practico</option>
 			</select>
             
             <h4>Unidad Temática</h4>

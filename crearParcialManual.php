@@ -8,7 +8,7 @@
     
     <div  id="opciones" style="width:100%;background:#CCC ;border-radius:5px 5px 0px 0px ;" align="right">
     <form method="post" action="generarpdf.php" onsubmit="return validarPuntaje()">
-        <input id="trampa" name="trampa" type="hidden" value=""> 
+        <input id="contenido" name="contenido" type="hidden" value="<table style='width:100%'><tr><td>Jill</td><td>Smith</td><td>50</td></tr><tr><td>Eve</td><td>Jackson</td><td>94</td></tr></table>"> 
         <input id="unid_sel" name="unid_sel" type="hidden" value="">
         <input id="boton"  type="submit"  value="Generar" style="display:none;all:none"/></a>
     </form>
@@ -39,7 +39,6 @@
             </div>
         </div>
     </div>
-    <!--El contenido de este div es creado al seleccionar los mensajes que se desea ver (recibidos o enviados) -->
         <div id="informacion" style="width:65%; float:right; padding:10px 0 0 10px; ">
         </div>
 

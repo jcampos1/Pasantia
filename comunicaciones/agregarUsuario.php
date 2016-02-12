@@ -7,7 +7,7 @@
 	$usuario=$_POST["usuario"];
 	$pass = $_POST["pass"];
 	
-	$sql="GRANT ALL ON *.* TO '$usuario'@'$host' IDENTIFIED BY '$pass' WITH GRANT OPTION";
+	$sql="GRANT ALL ON prueba.* TO '$usuario'@'$host' IDENTIFIED BY '$pass' WITH GRANT OPTION";
 	mysql_query($sql) or die ("ERROR AL CREAR EL USUARIO DE LA BD. ERROR: ".mysql_error());
 	if(!empty($_POST["coord"])){
 		$coord=$_POST["coord"];
