@@ -1,35 +1,34 @@
 <div>
 	<h2>¿Que tipo de evaluacion desea Generar?</h2>
 	<p>Puede elegir entre, Practicas, Quices, Parciales.</p>
-	<div class="row" style="text-align:center; width:100%;">
+	<div class="row">
         <?php if($_SESSION['tipo']=="Profesor"){
-			$col="col6";
+			$col="col-sm-6";
 		}else{
-			$col="col12";
+			$col="col-sm-6";
 		}?>
         
-		<a id="quiz" onclick="activarCB('1')" class="<?php echo $col?> qtype equal1 type_assessment" style="height: 200px;cursor:pointer;">
+		<a id="quiz" onclick="activarCB('1')" class="<?php echo $col?>" style="height: 200px;cursor:pointer;">
 			<h3>Practicas,Talleres y Quices</h3>
 			<p>Preparacion previa al parcial.</p>
-			<img src="resources/imagenes/quiz.jpg" alt="En Construccion">
 		</a>
         <?php if($_SESSION['tipo']=="Profesor"){
 		?>
-		<a id="parcial" onclick="activarCB('2')" class="<?php echo $col?> last qtype equal1 type_exam" style="height: 200px;cursor:pointer;">
+		<a id="parcial" onclick="activarCB('2')" class="<?php echo $col?>" style="height: 200px;cursor:pointer;">
 			<h3>Parcial</h3>
 			<p>Evaluacion con gran ponderacion. </p>
-			<img src="resources/imagenes/parcial.jpg" alt="En Construccion">
 		</a>
          <?php }?>
-         
 	</div>
-	<div>
-		<select name="generar_tipo" id="generar_tipo">
-					  <option value="automatico">Automatico</option>
-					  <option value="manual">Manual</option>
+	<div class="form-group">
+		<select class="form-control" name="generar_tipo" id="generar_tipo">
+			<option value="automatico">Automatico</option>
+			<option value="manual">Manual</option>
 		</select>
+	</div>
+	<div class="form-group">
 		<input id="oculto" type="hidden" value="">
-		<a id="generar" onclick="genera()" href=""><input type="button" style="float:right" value="Generar"></a>
+		<a id="generar" onclick="genera()" href="#" style="float:right" class="btn btn-primary" role="button">Generar</a>
 	</div>
 </div>				
 

@@ -15,7 +15,7 @@
 	/*Volver al login*/
 	header('Location: index.php');
 ?>
-				
+
 
 
 
