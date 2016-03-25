@@ -6,16 +6,16 @@
 	$tipo = $_POST["tipo"];
 	$usuario=$_POST["usuario"];
 	$pass = $_POST["pass"];
+	$email= $_POST["correo"];
 	
-	$sql="GRANT ALL ON prueba.* TO '$usuario'@'$host' IDENTIFIED BY '$pass' WITH GRANT OPTION";
-	mysql_query($sql) or die ("ERROR AL CREAR EL USUARIO DE LA BD. ERROR: ".mysql_error());
-	if(!empty($_POST["coord"])){
-		$coord=$_POST["coord"];
-		echo $tipo.", ".$coord;
-		$sql="INSERT INTO usuario VALUES('$ced','$nombre', '$tipo', '$usuario', '$pass','$coord')";
-	}else{
-			$sql="INSERT INTO usuario VALUES('$ced','$nombre', '$tipo', '$usuario', '$pass','no')";
+
+	$sql="INSERT INTO usuario VALUES('$ced','$nombre','$email','$tipo','$usuario','".md5($pass)."','$coord')";
+	if(mysql_query($sql)){
+		$_SESSION['actAviso']=1;
+		header('Location: ../inicio.php?view=8&fuente=2');
 	}
-	mysql_query($sql) or die ("ERROR AL INSERTAR USUARIO. ERROR: ".mysql_error());
-	header('Location: ../inicio.php?view=8&actAviso=1&fuente=2');
+	else{
+		$_SESSION['actAviso']=4;
+		header('Location: ../inicio.php?view=8&fuente=2');
+		}
 ?>

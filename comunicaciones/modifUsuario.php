@@ -9,19 +9,15 @@
 	$usuario=$_POST["usuario"];
 	$pass = $_POST["pass"];
 	
-	//elimino el usuario
-	mysql_query("DROP USER '$usuario'@'$host'") or die ("ERROR AL ELIMINAR CON DROP USER. ERROR: ".mysql_error());
 	
-	$sql="GRANT ALL ON *.* TO '$usuario'@'$host' IDENTIFIED BY '$pass' WITH GRANT OPTION";
-	mysql_query($sql) or die ("ERROR AL CREAR EL USUARIO DE LA BD. ERROR: ".mysql_error());
-	if(!empty($_POST["coord"])){
-			$coord=$_POST["coord"];
-			$con="UPDATE usuario SET ci='$ced', nombre= '$nombre', tipo='$tipo', user='$usuario', pass='$pass', coord='$coord' WHERE ci='$ci_vieja'";
-			$_SESSION['coord']=$coord;
-	}else{
-		$_SESSION['coord']="no";
-			$con="UPDATE usuario SET ci='$ced', nombre= '$nombre', tipo='$tipo', user='$usuario', pass='$pass', coord='no' WHERE ci='$ci_vieja'";
+	$con="UPDATE usuario SET ci='$ced', nombre= '$nombre', tipo='$tipo', user='$usuario', pass='$pass', coord='no' WHERE ci='$ci_vieja'";
+	if(mysql_query($con)){
+		$_SESSION['actAviso']=2;
+		header('Location: ../inicio.php?view=1&fuente=2');
 	}
-	mysql_query($con) or die ("ERROR AL ACTUALIZAR TABLA DE USUARIO. ERROR: ".mysql_error());
-	header('Location: ../inicio.php?view=1&actAviso=1');
+	else{
+		$_SESSION['actAviso']=4;
+		header('Location: ../inicio.php?view=1&fuente=2');
+	}
+	
 ?>

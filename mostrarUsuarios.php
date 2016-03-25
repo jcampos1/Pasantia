@@ -2,9 +2,9 @@
 	include("conexion.php");
 	$sql= "SELECT user,nombre FROM usuario WHERE user!='".$_SESSION['usuario']."' ORDER BY tipo DESC";
 	$result=mysql_query($sql) or die ("Error al ejecutar consulta para mostrar usuarios. ".mysql_error());
-	echo "<table width='100%' height='280px'>
+	echo "<table class='table-striped table-responsive' width='100%'>
   <tr>
-    <th scope='col'>usuario</th>
+    <th scope='col'>Usuario</th>
     <th scope='col'>Nombre</th>
   </tr>";
 

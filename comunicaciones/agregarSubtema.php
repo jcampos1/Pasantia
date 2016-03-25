@@ -5,6 +5,13 @@
 	$unid=$_POST["unidad_tematica"];
 	
 	$sql="INSERT INTO subtema VALUES('".$subt."','".$unid."')";
-	mysql_query($sql);
-	header('Location: ../inicio.php?view=8&actAviso=1&fuente=1');
+	
+	if(mysql_query($sql)){
+		$_SESSION['actAviso']=1;
+		header('Location: ../inicio.php?view=8&fuente=1');
+	}
+	else{
+		$_SESSION['actAviso']=4;
+		header('Location: ../inicio.php?view=8&fuente=1');
+	}
 ?>

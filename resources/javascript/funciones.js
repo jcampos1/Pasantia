@@ -18,7 +18,7 @@ $('#formElimMsj').on('submit', function(e){
     });
 
 $('#Asignatura').on("change",function(){
-	document.getElementById('elegirTipo').innerHTML ="<b>Elija tipo de parcial</b><select name='tipoDeParcial' id='tipoParcial' onchange=\"m();\"><option value='' disabled selected>Seleccione</option><option value='teorico'>Teorico</option><option value='practico'>Práctico</option><option value='teopract'>Teórico-Práctico</option></select><b>Elija complejidad</b><select name='nivel' id='nivel'><option value='' disabled selected>Complejidad</option><option value='bajo'>Bajo</option><option value='medio'>Medio</option><option value='alto'>Alto</option><option value='reparacion'>Reparacion</option><option value='reparacion'>Concurso</option></select>";
+	document.getElementById('elegirTipo').innerHTML ="<div class='form-group'><select class='form-control' name='tipoDeParcial' id='tipoParcial' onchange=\"m();\"><option value='' disabled selected>Componente</option><option value='teorico'>Teorico</option><option value='practico'>Práctico</option><option value='teopract'>Teórico-Práctico</option></select></div><div class='form-group'><select class='form-control' name='nivel' id='nivel'><option value='' disabled selected>Complejidad</option><option value='bajo'>Bajo</option><option value='medio'>Medio</option><option value='alto'>Alto</option><option value='todos'>Todos</option><option value='reparacion'>Reparacion</option><option value='reparacion'>Concurso</option></select></div>";
                 
 	if(document.getElementById('elegirTipo').style.display=="none"){
 		document.getElementById('elegirTipo').style.display="block";
@@ -28,6 +28,10 @@ $('#Asignatura').on("change",function(){
 	document.getElementById('camposPractica').style.display="none";
 });
 });
+
+function prueba_word(){
+	$('#contenido_evaluacion').val($('#filas').html());
+}
 
 //Marca como seleccionado un elemento referenciado por un ID
 //paginas que la usan: cuenta.php
@@ -241,18 +245,17 @@ function writeID(idCampo, valor){
 	document.getElementById(idCampo).value=valor;
 }
 
-//muestra la ventana de confirmación de borrado
-//paginas que la usan: historial.php
-function confirmacion(ident){
-	var reply=confirm("¿Seguro que desea eliminar el enunciado de ID: "+document.getElementById(idElemento).value+"?")
-	return reply;
-}
+
+
 
 //muestra la ventana de confirmación de borrado
 //paginas que la usan: adminTemas.php
-function confirmTema(ident,str){
-	var reply=confirm("¿Seguro que desea eliminar el "+str+": "+ident+"?")
-	return reply;
+function confirmEliminacion(ident,nombre,formulario){
+	var contenido= "<div class='modal-dialog modal-sm'><div class='modal-content'><div class='modal-body'><p>¿Desea eliminar "+nombre+":"+ident+"?</p></div><div class='modal-footer'><button type='button' class='btn btn-warning pull-left' onclick=\"document.getElementById('"+formulario+"').submit();\" >Si</button><button type='button' class='btn btn-info'  data-dismiss='modal'>No</button></div></div></div>";
+	
+	$("#myModal").html(contenido);
+	
+	$("#myModal").modal("show");
 }
 
 function mostrarAviso(){
@@ -473,11 +476,16 @@ function quitarEnunciado(x,y){
 	} else {
 		padre = x.parentNode;
 		padre.removeChild(x);
-		padre2= y.parentNode;
-		padre2.removeChild(y);
 		cantHijos--;
+		var indice=1;
+		$('#filas').children("tr").each(function(){
+			$(this).children('td').first().html('<strong>'+indice+'.</strong>');
+			indice++;
+		});
 		if(cantHijos==0){
 			document.getElementById("boton").style.display='none';
+			document.getElementById("no_selec").style.display='block';
+			document.getElementById("tablaselec").style.display='none';
 		}
 	}
 }
@@ -516,14 +524,24 @@ function apilar(id_e,subt,comp){
 
 //paginas que la usan: enunParcial.php
 function copiar(x,id_e){
+	if(document.getElementById("tablaselec").rows.length == 0) 
+	{
+		document.getElementById("no_selec").style.display='none';
+		document.getElementById("tablaselec").style.display='block';
+	}
 	dato = document.getElementById("copia"+id_e);
 	if (!dato){
 		tbody= document.getElementById("filas");
 		var idEnun= document.getElementById("copia"+id_e);
 		var idPts= document.getElementById("copia"+id_e);
-		newRow= "<tr id='copia"+id_e+"'>"+x.innerHTML+"<td><div style='display:inline-block; width:5%;'><input type='image' src='resources/imagenes/quitar.jpg' style='width:15px; height:15px;' title='Quitar' class='edit_or_delete' onclick=\"quitarEnunciado(document.getElementById('copia"+id_e+"'),document.getElementById('pts"+id_e+"'));\" /></div></td></tr><tr id='pts"+id_e+"' style='background:white'><td width='30%;' align='center'><strong style='font-size:10px;'>pts ejerc. "+id_e+"<br></strong><input id='punt"+id_e+"' name='pts[]' style='height:20px;pading:0;width:60px;' type='number' min='0' max='20'></td><td width='70%;' align='center'><strong style='font-size:10px;'>pts por Items ejercicio "+id_e+"</strong><input type='text' name='items[]' placeholder='pts por items' style='font-size:12px; height:20px;' width='70%'/></td></tr>";
+		newRow= "<tr id='copia"+id_e+"' style='cursor:pointer' title=\"Click para quitar ejercicio\" onclick=\"quitarEnunciado(document.getElementById('copia"+id_e+"'),document.getElementById('pts"+id_e+"'));\" />"+x.innerHTML+"</tr>";
 		tbody.innerHTML+=newRow;
-		document.getElementById('boton').style.display='block';
+		var indice=1;
+		$('#filas').children("tr").each(function(){
+			$(this).children('td').first().html('<strong>'+indice+'.</strong>');
+			indice++;
+		});
+		document.getElementById("boton").style.display='block';
 		cantHijos++;
 	}
 }
@@ -608,20 +626,14 @@ function fun(){
 	}
 }
 
-/*Se ejecuta cuando se selecciona un usuario que se desea modificar.
-paginas que la usan: adminUsuarios.php*/
-function modifUsuario(ced, tipo, coord){
-	document.getElementById('addUsuario').innerHTML="<form name='modUsuario' action='comunicaciones/modifTipoUsuario.php' method='post'><input type='hidden' name='ced' id='ced' value='"+ced+"'/><div style='margin-top:1%;' align='center'><h4><div id='titulo'>MODIFICAR TIPO DE USUARIO</div></h4></div><h5>Tipo de Usuario</h5><select name='tipo' id='tipo' onchange=\"fun();\"></option><option id='Preparador' value='Preparador'>Preparador</option><option id='Profesor' value='Profesor'>Profesor</option></select><div id='coordinador' ></div><div style='margin-top:-10px;' align='center'><input type='submit' id='boton' value='Agregar'/></div></form>";
-	
-	seleccionar(tipo,coord);
-	document.getElementById('boton').value="Actualizar";
-}
+
 
 /*Se ejecuta cuando se selecciona un tema que se desea modificar.
 paginas que la usan: adminTemas.php*/
 function modifUnidad(unid,asig){
 	document.getElementById('unid_tem').value=unid;
 	document.getElementById('titulo').innerHTML="MODIFICAR TEMA";
+	document.getElementById('boton_temas').innerHTML="Modificar";
 	document.forms.agregarTema.action="comunicaciones/modifTema.php";
 	document.getElementById('unid_viejo').value=unid;
 	document.getElementById('boton').value="Modificar";
@@ -633,6 +645,7 @@ paginas que la usan: adminTemas.php*/
 function modifSubtema(subt,unid){
 	document.getElementById('nomb_subt').value=subt;
 	document.getElementById('titulo').innerHTML="MODIFICAR SUBTEMA";
+	document.getElementById('boton_subtemas').innerHTML="Modificar";
 	document.forms.agregarSubtema.action="comunicaciones/modifSubtema.php";
 	document.getElementById('subt_viejo').value=subt;
 	document.getElementById('boton').value="Modificar";
@@ -671,6 +684,7 @@ function vistaPrevia(pagina){
 	
 	xmlhttp.onreadystatechange = function() {
 		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+			if(xmlhttp.responseText.length>203) $('#boton').css('display','block');
 			document.getElementById('informacion').innerHTML = xmlhttp.responseText;
 		}
 	}
@@ -700,6 +714,17 @@ function mostrarEnunciados(){
 	xmlhttp.send();
 }
 
+function BusquedaRapida(){
+	array = $('#busqueda').val();
+	$.post("includes/busqueda_rapida.php",
+	{
+		ids:array
+	},
+	function(data, status){
+		document.getElementById('informacion').innerHTML = data;
+	});
+		
+}
 
 //paginas que la usan: crearQuiz.php
 //busca que boton de radio esta seleccionado

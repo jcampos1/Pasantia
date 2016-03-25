@@ -6,14 +6,14 @@ $clave = $_POST["clave_usuario"];
 
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
-$conexion=mysql_connect($host, $usuario, $clave);
+$conexion=mysql_connect($host,"root","custodes");
 if(!$conexion){
 	$_SESSION['error']='invalido';
 	header('Location: index.php');
 }
 else{
 	mysql_select_db("prueba", $conexion);
-	$sql="SELECT tipo,coord FROM usuario WHERE user='".$usuario."'";
+	$sql="SELECT tipo,coord FROM usuario WHERE user='".$usuario."' and pass='".md5($clave)."'";
 	$ro=mysql_fetch_array(mysql_query($sql));
 
 	if($ro){

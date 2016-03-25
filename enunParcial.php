@@ -9,18 +9,19 @@ $tipo = $_GET['tipo'];
 $asig = $_GET['asig'];
 $conten='';
 if(empty($micadena)){
-	echo "No hay opciones seleccionadas";
+	echo "<div id='aviso_banco' class='alert alert-warning fade in'>";
+	echo "<strong><span class='glyphicon glyphicon-info-sign'></span> Seleccione los parámetros de búsqueda correctamente.</strong>";
+	echo "</div>";
 }else{
 	//cantidad de subtemas seleccionados
 	$subt=explode(",",$micadena);
 	$totalSeleccionados = count($subt);
-	echo "<h2>Parcial Manual / Ejercicios disponibles</h2>";
 	$k=1;
 	$conten = "<table width='100%'>";
-	//update enunciado set fec_ult_uso='2015-08-25' where id_e='5'SELECT * FROM `enunciado` WHERE nombre_sub='DemostraciÃ³n lÃ³gica de predicados' order by fec_ult_uso ASC
+
 	$i=0;
 	$j=0;
-	//Para escribir por cada enunciado, si el enunciado es Teórico o Práctico
+
 	if($subt[2]=="teorico"){
 			$componente="Teórico";
 		}else{
@@ -35,9 +36,13 @@ if(empty($micadena)){
 			}	
 		}
 		
-
-		$sql="SELECT * FROM enunciado WHERE componente='".$subt[$i+2]."' and nombre_sub='".$subt[$i]."' and unidad_tematica='".$subt[$i+1]."' and nivel='".$nivel."' ORDER BY fec_ult_uso ASC ";
-		/*$sql="SELECT * FROM (SELECT * FROM enunciado WHERE nombre_sub='".$subt[$i]."' and nivel='".$nivel."' ORDER BY fec_ult_uso ASC) ORDER BY rand(".time()."*".time().") LIMIT 0,".$cant[$i];*/
+		if($nivel =='todos'){
+			$sql="SELECT * FROM enunciado WHERE componente='".$subt[$i+2]."' and nombre_sub='".$subt[$i]."' and unidad_tematica='".$subt[$i+1]."' and nivel='bajo' or nivel='medio' or nivel='alto' ORDER BY fec_ult_uso ASC";
+		}
+		else{
+			$sql="SELECT * FROM enunciado WHERE componente='".$subt[$i+2]."' and nombre_sub='".$subt[$i]."' and unidad_tematica='".$subt[$i+1]."' and nivel='".$nivel."' ORDER BY fec_ult_uso ASC";
+		}
+		
 		$result=mysql_query($sql);
 		$n=mysql_num_rows($result);
 		if($n>0){
@@ -50,9 +55,9 @@ if(empty($micadena)){
 				
 				//$desc=preg_quote($desc,'/');
 				$conten = $conten."
-					<tr id='enun".$row['id_e']."' onclick=\"copiar(this, 'enun".$row['id_e']."');\" onmouseover=\"this.className = 'resaltar'\" onmouseout=\"this.className = null\" title=\"ver enunciados\">
-						<td width='5%;' valign='top'><strong>".($row['id_e']).".</strong></td>
-						<td width='90%;'><b>Ejercicio $componente / ".$subt[$i]."</b><br>".$row['descripcion']."</td>		
+					<tr id='enun".$row['id_e']."' onclick=\"copiar(this, 'enun".$row['id_e']."');\" style='cursor:pointer' title=\"Click para seleccionar ejercicio\">
+						<td width='10%;' valign='top'><strong>".($row['id_e']).".&nbsp;</strong></td>
+						<td width='90%;'>".$row['descripcion']."</td>
 					</tr>
 				";
 				$k++;
@@ -62,9 +67,8 @@ if(empty($micadena)){
 		$i=$i+3;
 		$j++;
 		}
-	echo "<br><h3>Cantidad de preguntas encontradas:<strong>".($k-1)."</strong></h3><br> ";
+	echo "<h3>Cantidad de preguntas encontradas:<strong>".($k-1)."</strong></h3><br> ";
 	$conten=$conten."</table>";
 	echo $conten;
-	$_SESSION['contenido']=$conten;
 }
 ?>
