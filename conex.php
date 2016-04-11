@@ -1,12 +1,12 @@
 <?php
 session_start();
-$host="localhost";
+$host="mysql.hostinger.es";
 $usuario = $_POST["nombre_usuario"];
 $clave = $_POST["clave_usuario"];
 
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
-$conexion=mysql_connect($host,"root","custodes");
+$conexion=mysql_connect($host,"u477358893_sigie","custodes");
 if(!$conexion){
 	$_SESSION['error']='invalido';
 	header('Location: index.php');
